@@ -1,5 +1,9 @@
 module SalesEngineWeb
   class Server < Sinatra::Base
+    get '/' do
+      "Hello world"
+    end
+
     get '/merchants/find' do
       status 200
       if params[:id]
