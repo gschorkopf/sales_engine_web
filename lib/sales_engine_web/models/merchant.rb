@@ -41,7 +41,7 @@ module SalesEngineWeb
       results.collect {|result| new(result)} if results
     end
 
-    def to_json
+    def to_json(*args)
       {:id => id, :name => name}.to_json
     end
 

@@ -49,6 +49,20 @@ describe "/merchants/" do
     end
   end
 
+  describe "find_all" do
+    it "finds the merchants by name" do
+      get "/merchants/find_all?name=jumpstart%20lab"
+      output = JSON.parse(last_response.body)
+      expect( output.count ).to eq 1
+    end
+
+    it "finds the merchants given part of a name" do
+      get "/merchants/find_all?name=s"
+      output = JSON.parse(last_response.body)
+      expect( output.count ).to eq 2
+    end
+  end
+
   describe ":id/items" do
     it "returns collection of items associated with merchant"
   end
