@@ -14,20 +14,7 @@ module SalesEngineWeb
     end
 
     def self.merchants
-      unless tables.include?(:merchants)
-        build_merchants_table
-      end
-
       database[:merchants]
-    end
-
-    def self.tables
-      @tables ||= []
-    end
-
-    def self.build_merchants_table
-      database.
-      tables << :merchants
     end
 
     def self.environment=(input)

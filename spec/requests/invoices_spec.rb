@@ -35,22 +35,30 @@ describe "/invoices/" do
     end
   end
 
-  describe "find all" do
-    context "by customer id" do
-      it "finds all matching invoices"
-    end
+  describe "find_all" do
+    it "finds by merchant id"
+    it "finds by customer id"
+    it "finds by status"
   end
 
-  describe "find all" do
-    context "by merchant id" do
-      it "finds all matching invoices"
-    end
+  describe "invoices/:id/transactions" do
+    it "returns a collection of associated transactions"
   end
 
-  describe "find all" do
-    context "by status" do
-      it "finds all matching invoices"
-    end
+  describe "invoices/:id/invoice_items" do
+    it "returns a collection of associated invoice items"
+  end
+
+  describe "invoices/:id/items" do
+    it "returns a collection of associated items"
+  end
+
+  describe "invoices/:id/customer" do
+    it "returns the associated customer"
+  end
+
+  describe "invoices/:id/merchant" do
+    it "returns the associated merchant"
   end
 
 end

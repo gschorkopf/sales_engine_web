@@ -48,4 +48,44 @@ describe "/merchants/" do
       end
     end
   end
+
+  describe ":id/items" do
+    it "returns collection of items associated with merchant"
+  end
+
+  describe ":id/invoice" do
+    it "returns collection of invoice associated with merchant from known orders"
+  end
+
+  context "for multiple merchants" do
+    describe "most_revenue?quantity=x" do
+      it "returns the top x merchants ranked by total revenue"
+    end
+
+    describe "most_items?quantity=x" do
+      it "returns the top x merchants ranked by total number of items sold"
+    end
+
+    describe "revenue?date=x" do
+      it "returns the total revenue for date x across all merchants"
+    end
+  end
+
+  context "for a single merchant" do
+    describe ":id/revenue" do
+      it "returns the total revenue for that merchant across all transactions"
+    end
+
+    describe ":id/revenue?date=x" do
+      it "returns the total revenue for that merchant for a specific invoice date"
+    end
+
+    describe ":id/favorite_customer" do
+      it "returns the customer who has conducted the most successful transactions"
+    end
+
+    describe ":id/customers_with_pending_invoices" do
+      it "returns a collection of customers which have pending (unpaid) invoices"
+    end
+  end
 end
