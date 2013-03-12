@@ -23,7 +23,7 @@ module SalesEngineWeb
     end
 
     def to_hash
-      { :id => id, :name => name}
+      { :id => id, :name => name }
     end
 
     def self.find(id)
@@ -37,7 +37,8 @@ module SalesEngineWeb
     end
 
     def self.find_all_by_name(name)
-      merchants.where(Sequel.ilike(:name, "%#{name}%"))
+      results = merchants.where(Sequel.ilike(:name, "%#{name}%"))
+      results.collect {|result| new(result)} if results
     end
 
     def to_json

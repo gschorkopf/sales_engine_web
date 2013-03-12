@@ -13,5 +13,14 @@ module SalesEngineWeb
     get '/merchants/random' do
       Merchant.random.to_json
     end
+
+    get '/invoices/find' do
+      status 200
+      Invoice.find(params[:id])
+    end
+
+    get '/invoices/random' do
+      Invoice.random.to_json
+    end
   end
 end

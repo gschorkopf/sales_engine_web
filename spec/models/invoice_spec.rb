@@ -47,6 +47,18 @@ module SalesEngineWeb
       end
     end
 
+    describe ".find_all_by_merchant_id" do
+        it "finds all matching invoices"
+    end
+
+    describe ".find_all_by_customer_id" do
+        it "finds all matching invoices"
+    end
+
+    describe ".find_all_by_status" do
+        it "finds all matching invoices"
+    end
+
 
   end
 end

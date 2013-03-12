@@ -13,8 +13,7 @@ describe "/merchants/" do
 
   let(:merchant1){ SalesEngineWeb::Merchant.create(:name => "Jumpstart Lab") }
   let(:merchant2){ SalesEngineWeb::Merchant.create(:name => "gSchool") }
-  let(:merchant3){ SalesEngineWeb::Merchant.create(:name => "Galvanize") }
-
+  
   describe "random" do
     it "returns a random merchant" do
       get '/merchants/random'
