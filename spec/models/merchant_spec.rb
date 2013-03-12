@@ -9,6 +9,15 @@ module SalesEngineWeb
       end
     end
 
+    describe '.find_all_by_name' do
+      it "returns all matching merchants" do
+        Merchant.create(:name => "Jumpstart Lab")
+        Merchant.create(:name => "Jumpstart Party")
+        merchants = Merchant.find_all_by_name("Jumpstart")
+        expect( merchants.count ).to eq 2
+      end
+    end
+
     describe '.find' do
       it "finds a merchant" do
         target = Merchant.create(:name => "Jumpstart Lab")
@@ -41,6 +50,9 @@ module SalesEngineWeb
       end
     end
 
-    it "implements to_hash"
+    it "implements to_hash" do
+      m = Merchant.create(:name => "Jumpstart Lab")
+      expect( m.to_hash[:name] ).to eq "Jumpstart Lab"
+    end
   end
 end
