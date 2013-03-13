@@ -4,6 +4,7 @@
 .config
 .yardoc
 coverage
+tmp
 Gemfile.lock
 db/sales_engine_web_development.sqlite3
 db/sales_engine_web_test.sqlite3

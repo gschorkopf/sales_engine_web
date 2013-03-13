@@ -14,7 +14,6 @@ module SalesEngineWeb
 
     def transactions
       # invoices.collect {|invoice| invoice.transactions }
-      #### GAH
       trans_array = []
       invoices.each do |inv| 
         inv.transactions.each {|trans| trans_array << trans}
