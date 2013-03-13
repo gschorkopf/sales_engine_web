@@ -104,6 +104,64 @@ module SalesEngineWeb
       Item.random.to_json
     end
 
+    get '/invoice_items/find' do
+      if params[:id]
+        ii = InvoiceItem.find(params[:id])
+      elsif params[:item_id]
+        ii = InvoiceItem.find_by_item_id(params[:item_id])
+      elsif params[:invoice_id]
+        ii = InvoiceItem.find_by_invoice_id(params[:invoice_id])
+      elsif params[:quantity]
+        ii = InvoiceItem.find_by_quantity(params[:quantity])
+      elsif params[:unit_price]
+        ii = InvoiceItem.find_by_unit_price(params[:unit_price])
+      end  
+      body ii.to_json     
+    end
+
+    get '/invoice_items/find_all' do
+      if params[:item_id]
+        iis = InvoiceItem.find_all_by_item_id(params[:item_id])
+      elsif params[:invoice_id]
+        iis = InvoiceItem.find_all_by_invoice_id(params[:invoice_id])
+      elsif params[:quantity]
+        iis = InvoiceItem.find_all_by_quantity(params[:quantity])
+      elsif params[:unit_price]
+        iis = InvoiceItem.find_all_by_unit_price(params[:unit_price])
+      end  
+      body iis.to_json
+    end
+
+    get '/invoice_items/random' do
+      InvoiceItem.random.to_json
+    end
+
+    get '/transactions/find' do
+      if params[:id]
+        trans = Transaction.find(params[:id])
+      elsif params[:invoice_id]
+        trans = Transaction.find_by_invoice_id(params[:invoice_id])
+      elsif params[:credit_card_number]
+        trans = Transaction.find_by_credit_card_number(params[:credit_card_number])
+      end
+      body trans.to_json
+    end
+
+    get '/transactions/find_all' do
+      if params[:result]
+        trans = Transaction.find_all_by_result(params[:result])
+      elsif params[:invoice_id]
+        trans = Transaction.find_all_by_invoice_id(params[:invoice_id])
+      elsif params[:credit_card_number]
+        trans = Transaction.find_all_by_credit_card_number(params[:credit_card_number])
+      end
+      body trans.to_json
+    end
+
+    get '/transactions/random' do
+      Transaction.random.to_json
+    end
+
 
   end
 end
