@@ -13,6 +13,8 @@ describe "/merchants/" do
 
   let(:merchant1){ SalesEngineWeb::Merchant.create(:name => "Jumpstart Lab") }
   let(:merchant2){ SalesEngineWeb::Merchant.create(:name => "gSchool") }
+  let!(:item){SalesEngineWeb::Item.create(:name => "Knowledge", :merchant_id => 1)}
+  let!(:invoice){SalesEngineWeb::Invoice.create(:merchant_id => 1, :status => "shipped")}
   
   describe "random" do
     it "returns a random merchant" do
@@ -68,11 +70,17 @@ describe "/merchants/" do
   end
 
   describe ":id/items" do
-    it "returns collection of items associated with merchant"
+    it "returns collection of items associated with merchant" do
+      output = get_json "/merchants/#{ merchant1.id }/items"
+      expect( output.count ).to eq 1
+    end
   end
 
-  describe ":id/invoice" do
-    it "returns collection of invoice associated with merchant from known orders"
+  describe ":id/invoices" do
+    it "returns collection of invoice associated with merchant from known orders" do
+      output = get_json "/merchants/#{ merchant1.id }/invoices"
+      expect( output.count ).to eq 1
+    end
   end
 
   context "for multiple merchants" do

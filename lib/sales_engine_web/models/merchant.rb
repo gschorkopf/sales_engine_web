@@ -39,6 +39,14 @@ module SalesEngineWeb
       results.collect {|result| new(result)} if results
     end
 
+    def items
+      Item.find_all_by_merchant_id(id)
+    end
+
+    def invoices
+      Invoice.find_all_by_merchant_id(id)
+    end
+
     def to_json(*args)
       {:id => id, :name => name}.to_json
     end

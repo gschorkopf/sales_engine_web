@@ -22,6 +22,14 @@ module SalesEngineWeb
       Merchant.random.to_json
     end
 
+    get '/merchants/:id/items' do
+      Merchant.find(params[:id]).items.to_json Merchant.find(params[:id])
+    end
+    
+    get '/merchants/:id/invoices' do
+      Merchant.find(params[:id]).invoices.to_json if Merchant.find(params[:id])
+    end
+
     get '/invoices/find' do
       if params[:id]
         invoice = Invoice.find(params[:id])
@@ -48,6 +56,26 @@ module SalesEngineWeb
       Invoice.random.to_json
     end
 
+    get '/invoices/:id/transactions' do
+      Invoice.find(params[:id]).transactions.to_json if Invoice.find(params[:id])
+    end
+
+    get '/invoices/:id/invoice_items' do
+      Invoices.find(params[:id]).invoice_items.to_json if Invoice.find(params[:id])
+    end
+
+    get '/invoices/:id/items' do
+      Invoices.find(params[:id]).items.to_json if Invoice.find(params[:id])
+    end
+
+    get '/invoices/:id/customer' do
+      Invoices.find(params[:id]).customer.to_json if Invoice.find(params[:id])
+    end
+
+    get '/invoices/:id/merchant' do
+      Invoices.find(params[:id]).merchant.to_json if Invoice.find(params[:id])
+    end
+
     get '/customers/find' do
       if params[:id]
         customer = Customer.find(params[:id])
@@ -70,6 +98,14 @@ module SalesEngineWeb
 
     get '/customers/random' do
       Customer.random.to_json
+    end
+
+    get '/customers/:id/invoices' do
+      Customer.find(params[:id]).invoices.to_json if Customer.find(params[:id])
+    end 
+
+    get '/customers/:id/transactions' do
+      Customer.find(params[:id]).transactions.to_json if Customer.find(params[:id])
     end
 
     get '/items/find' do
@@ -104,6 +140,14 @@ module SalesEngineWeb
       Item.random.to_json
     end
 
+    get '/items/:id/invoice_items' do
+      Item.find(params[:id]).invoice_items.to_json if Item.find(params[:id])
+    end
+
+    get '/items/:id/merchant' do
+      Item.find(params[:id]).merchant.to_json if Item.find(params[:id])
+    end
+
     get '/invoice_items/find' do
       if params[:id]
         ii = InvoiceItem.find(params[:id])
@@ -136,6 +180,14 @@ module SalesEngineWeb
       InvoiceItem.random.to_json
     end
 
+    get '/invoice_items/:id/invoice' do
+      InvoiceItem.find(params[:id]).invoice.to_json if InvoiceItem.find(params[:id])
+    end 
+
+    get '/invoice_items/:id/item' do
+      InvoiceItem.find(params[:id]).item.to_json if InvoiceItem.find(params[:id])
+    end
+
     get '/transactions/find' do
       if params[:id]
         trans = Transaction.find(params[:id])
@@ -160,6 +212,10 @@ module SalesEngineWeb
 
     get '/transactions/random' do
       Transaction.random.to_json
+    end
+
+    get '/transactions/:id/invoice' do
+      Transaction.find(params[:id]).invoice.to_json if Transaction.find(params[:id])
     end
 
 

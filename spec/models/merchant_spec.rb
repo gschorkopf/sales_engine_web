@@ -2,6 +2,9 @@ require 'spec_helper'
 
 module SalesEngineWeb
   describe Merchant do
+    let!(:item){SalesEngineWeb::Item.create(:name => "Knowledge", :merchant_id => 1)}
+    let!(:invoice){SalesEngineWeb::Invoice.create(:merchant_id => 1, :status => "shipped")}
+  
     describe '.create' do
       it 'creates a merchant' do
         merchant = Merchant.create(:name => "Jumpstart Lab")
@@ -54,5 +57,22 @@ module SalesEngineWeb
       m = Merchant.create(:name => "Jumpstart Lab")
       expect( m.to_hash[:name] ).to eq "Jumpstart Lab"
     end
+
+    describe "#invoices" do
+      it "returns invoices for merchant" do
+        target = Merchant.create(:name => "Jumpstart Lab")
+        inv = Merchant.find(target.id).invoices
+        expect(inv.count).to eq 1
+      end
+    end
+
+    describe "#items" do
+      it "returns items for merchant" do
+        target = Merchant.create(:name => "Jumpstart Lab")
+        items = Merchant.find(target.id).items
+        expect(items.count).to eq 1
+      end
+    end
+
   end
 end
