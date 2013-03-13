@@ -49,10 +49,14 @@ describe "/merchants/" do
     end
   end
 
+  def get_json(url)
+    get url
+    JSON.parse(last_response.body)
+  end
+
   describe "find_all" do
-    it "finds the merchants by name" do
-      get "/merchants/find_all?name=jumpstart%20lab"
-      output = JSON.parse(last_response.body)
+    it "finds the merchants by name" do      
+      output = get_json "/merchants/find_all?name=jumpstart%20lab"
       expect( output.count ).to eq 1
     end
 

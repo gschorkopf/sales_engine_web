@@ -47,18 +47,36 @@ module SalesEngineWeb
       end
     end
 
-    describe ".find_all_by_merchant_id" do
-        it "finds all matching invoices"
-    end
+    context "multiple invoices" do
 
-    describe ".find_all_by_customer_id" do
-        it "finds all matching invoices"
-    end
+      before(:each) do
+        invoice1 && invoice2
+      end
 
-    describe ".find_all_by_status" do
-        it "finds all matching invoices"
-    end
+      let(:invoice1){ SalesEngineWeb::Invoice.create(:customer_id => 1, :merchant_id => 2, :status => "shipped") }
+      let(:invoice2){ SalesEngineWeb::Invoice.create(:customer_id => 1, :merchant_id => 3, :status => "shipped") }
 
+      describe ".find_all_by_merchant_id" do
+        it "finds all matching invoices" do
+          invoices = Invoice.find_all_by_merchant_id(2)
+          expect(invoices.count).to eq 1
+        end
+      end
+
+      describe ".find_all_by_customer_id" do
+        it "finds all matching invoices" do
+          invoices = Invoice.find_all_by_customer_id(1)
+          expect(invoices.count).to eq 2
+        end
+      end
+
+      describe ".find_all_by_status" do
+        it "finds all matching invoices, regardless of caps" do
+          invoices = Invoice.find_all_by_status("shiPPed")
+          expect(invoices.count).to eq 2
+        end
+      end
+    end
 
   end
 end

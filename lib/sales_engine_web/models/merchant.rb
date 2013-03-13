@@ -1,5 +1,3 @@
-require './lib/sales_engine_web/models/database'
-
 module SalesEngineWeb
   class Merchant
     attr_reader :id, :name
