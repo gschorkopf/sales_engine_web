@@ -1,5 +1,9 @@
+require 'simplecov'
+SimpleCov.start
+
 Bundler.require
 require 'sales_engine_web'
+
 SalesEngineWeb::Database.environment = :test
 
 RSpec.configure do |config|

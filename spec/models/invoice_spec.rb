@@ -2,41 +2,56 @@ require 'spec_helper'
 
 module SalesEngineWeb
   describe Invoice do
+    let!(:customer1){ SalesEngineWeb::Customer.create(:first_name => "Geoff", :last_name => "Schorkopf") }
+    let!(:customer2){ SalesEngineWeb::Customer.create(:first_name => "Tim", :last_name => "Schorkopf") }
+    let!(:ii1){ SalesEngineWeb::InvoiceItem.create(item_id: 1, invoice_id: 1, quantity: 9, unit_price: 100) }
+    let!(:ii2){ SalesEngineWeb::InvoiceItem.create(item_id: 2, invoice_id: 1, quantity: 4, unit_price: 200) }
+    let!(:ii3){ SalesEngineWeb::InvoiceItem.create(item_id: 1, invoice_id: 2, quantity: 5, unit_price: 200) }
+    let!(:invoice1){ SalesEngineWeb::Invoice.create(:customer_id => 1, :merchant_id => 2, :status => "shipped") }
+    let!(:invoice2){ SalesEngineWeb::Invoice.create(:customer_id => 1, :merchant_id => 3, :status => "shipped") }
+    let!(:item1){ SalesEngineWeb::Item.create(name: 'Top', description: 'Spinning toy',
+                  unit_price: 7200, merchant_id: 1) }
+    let!(:item2){ SalesEngineWeb::Item.create(name: 'Game Boy', description: 'Handheld toy',
+                  unit_price: 7200, merchant_id: 1) }
+    let!(:item3){ SalesEngineWeb::Item.create(name: 'Cell phone', description: 'Communication device',
+                  unit_price: 35000, merchant_id: 1) }
+    let!(:merchant1){ SalesEngineWeb::Merchant.create(name: "Jumpstart Lab")}
+    let!(:merchant2){ SalesEngineWeb::Merchant.create(name: "gSchool")}
+    let!(:trans1){SalesEngineWeb::Transaction.create(invoice_id: 1, result: 'failed', credit_card_number: 4567) }
+    let!(:trans2){SalesEngineWeb::Transaction.create(invoice_id: 1, result: 'success', credit_card_number: 4567) }
+    let!(:trans3){SalesEngineWeb::Transaction.create(invoice_id: 2, result: 'success', credit_card_number: 1234) }
+
     describe '.create' do
       it 'creates an invoice' do
-        invoice = Invoice.create(:customer_id => 1, :merchant_id => 2)
-        expect( invoice.customer_id ).to eq 1
-        expect( invoice.merchant_id ).to eq 2
+        expect( invoice1.customer_id ).to eq 1
+        expect( invoice1.merchant_id ).to eq 2
       end
     end
 
     describe '.find' do
       it "finds an invoice by id" do
-        target = Invoice.create(:customer_id => 1, :merchant_id => 2)
-        found  = Invoice.find( target.id )
-        expect( found.id ).to eq target.id
-        expect( found.customer_id ).to eq target.customer_id
-        expect( found.merchant_id ).to eq target.merchant_id
+        found  = Invoice.find( invoice1.id )
+        expect( found.id ).to eq invoice1.id
+        expect( found.customer_id ).to eq invoice1.customer_id
+        expect( found.merchant_id ).to eq invoice1.merchant_id
       end
     end
 
     describe '.find_by_customer_id' do
       it "finds all invoices by matching customer id" do
-        target = Invoice.create(:customer_id => 1, :merchant_id => 2)
-        found  = Invoice.find_by_customer_id( target.customer_id )
-        expect( found.id ).to eq target.id
-        expect( found.customer_id ).to eq target.customer_id
-        expect( found.merchant_id ).to eq target.merchant_id
+        found  = Invoice.find_by_customer_id( invoice1.customer_id )
+        expect( found.id ).to eq invoice1.id
+        expect( found.customer_id ).to eq invoice1.customer_id
+        expect( found.merchant_id ).to eq invoice1.merchant_id
       end
     end
 
     describe '.find_by_merchant_id' do
       it "finds all invoices by matching customer id" do
-        target = Invoice.create(:customer_id => 1, :merchant_id => 2)
-        found  = Invoice.find_by_merchant_id( target.merchant_id )
-        expect( found.id ).to eq target.id
-        expect( found.customer_id ).to eq target.customer_id
-        expect( found.merchant_id ).to eq target.merchant_id
+        found  = Invoice.find_by_merchant_id( invoice1.merchant_id )
+        expect( found.id ).to eq invoice1.id
+        expect( found.customer_id ).to eq invoice1.customer_id
+        expect( found.merchant_id ).to eq invoice1.merchant_id
       end
     end
 
@@ -48,14 +63,6 @@ module SalesEngineWeb
     end
 
     context "multiple invoices" do
-
-      before(:each) do
-        invoice1 && invoice2
-      end
-
-      let(:invoice1){ SalesEngineWeb::Invoice.create(:customer_id => 1, :merchant_id => 2, :status => "shipped") }
-      let(:invoice2){ SalesEngineWeb::Invoice.create(:customer_id => 1, :merchant_id => 3, :status => "shipped") }
-
       describe ".find_all_by_merchant_id" do
         it "finds all matching invoices" do
           invoices = Invoice.find_all_by_merchant_id(2)
@@ -78,5 +85,34 @@ module SalesEngineWeb
       end
     end
 
+    describe "#transactions" do
+      it "returns trans assoc with invoice" do
+        expect(invoice1.transactions.count).to eq 2
+      end
+    end
+
+    describe "#invoice_items" do
+      it "returns iis assoc with invoice" do
+        expect(invoice1.invoice_items.count).to eq 2
+      end
+    end
+
+    describe "#items" do
+      it "returns items assoc with invoice" do
+        expect(invoice1.items.count).to eq 2
+      end
+    end
+
+    describe "#customer" do
+      it "returns cust assoc with invoice" do
+        expect(invoice1.customer.first_name).to eq "Geoff"
+      end
+    end
+
+    describe "#merchant" do
+      it "returns merch assoc with invoice" do
+        expect(invoice1.merchant.name).to eq 'gSchool'
+      end
+    end
   end
 end

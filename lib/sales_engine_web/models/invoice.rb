@@ -9,6 +9,26 @@ module SalesEngineWeb
       @status = params[:status]
     end
 
+    def transactions
+      Transaction.find_all_by_invoice_id(id)
+    end
+
+    def invoice_items
+      InvoiceItem.find_all_by_invoice_id(id)
+    end
+
+    def items
+      invoice_items.collect {|ii| Item.find(ii.id)}
+    end
+
+    def customer
+      Customer.find(customer_id)
+    end
+
+    def merchant
+      Merchant.find(merchant_id)
+    end
+
     def self.random
       invoice = invoices.to_a.sample
       new(invoice) if invoice

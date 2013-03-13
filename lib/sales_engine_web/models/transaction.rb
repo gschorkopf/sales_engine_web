@@ -10,6 +10,10 @@ module SalesEngineWeb
       @credit_card_expiration_date = params[:credit_card_expiration_date]
     end
 
+    def invoice
+      Invoice.find(invoice_id)
+    end
+
     def self.create(params)
       Transaction.new(params).save
     end

@@ -1,5 +1,3 @@
-require './lib/sales_engine_web/models/database'
-
 module SalesEngineWeb
   class Customer
     attr_reader :id, :first_name, :last_name
@@ -8,6 +6,20 @@ module SalesEngineWeb
       @id = params[:id]
       @first_name = params[:first_name]
       @last_name = params[:last_name]
+    end
+
+    def invoices
+      Invoice.find_all_by_customer_id(id)
+    end
+
+    def transactions
+      # invoices.collect {|invoice| invoice.transactions }
+      #### GAH
+      trans_array = []
+      invoices.each do |inv| 
+        inv.transactions.each {|trans| trans_array << trans}
+      end
+      trans_array
     end
 
     def self.random

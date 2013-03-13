@@ -12,3 +12,4 @@ gem 'guard'
 gem 'guard-rspec'
 gem 'rb-fsevent', '~> 0.9'
 gem 'shotgun'
+gem 'simplecov', :require => false, :group => :test

@@ -10,6 +10,14 @@ module SalesEngineWeb
       @merchant_id = params[:merchant_id]
     end
 
+    def invoice_items
+      InvoiceItem.find_all_by_item_id(id)
+    end
+
+    def merchant
+      Merchant.find(merchant_id)
+    end
+
     def self.create(params)
       Item.new(params).save
     end

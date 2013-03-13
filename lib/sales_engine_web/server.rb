@@ -61,19 +61,19 @@ module SalesEngineWeb
     end
 
     get '/invoices/:id/invoice_items' do
-      Invoices.find(params[:id]).invoice_items.to_json if Invoice.find(params[:id])
+      Invoice.find(params[:id]).invoice_items.to_json if Invoice.find(params[:id])
     end
 
     get '/invoices/:id/items' do
-      Invoices.find(params[:id]).items.to_json if Invoice.find(params[:id])
+      Invoice.find(params[:id]).items.to_json if Invoice.find(params[:id])
     end
 
     get '/invoices/:id/customer' do
-      Invoices.find(params[:id]).customer.to_json if Invoice.find(params[:id])
+      Invoice.find(params[:id]).customer.to_json if Invoice.find(params[:id])
     end
 
     get '/invoices/:id/merchant' do
-      Invoices.find(params[:id]).merchant.to_json if Invoice.find(params[:id])
+      Invoice.find(params[:id]).merchant.to_json if Invoice.find(params[:id])
     end
 
     get '/customers/find' do

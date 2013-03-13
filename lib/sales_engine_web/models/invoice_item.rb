@@ -10,6 +10,14 @@ module SalesEngineWeb
       @quantity = params[:quantity]
     end
 
+    def invoice
+      Invoice.find(invoice_id)
+    end
+
+    def item
+      Item.find(item_id)
+    end
+
     def self.create(params)
       InvoiceItem.new(params).save
     end
