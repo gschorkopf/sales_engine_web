@@ -5,12 +5,6 @@ module SalesEngineWeb
       @database ||= Sequel.sqlite("./db/sales_engine_web_#{ environment }.sqlite3")
     end
 
-    def self.destroy
-      if environment == :test
-        system "rm './db/sales_engine_web_test.sqlite3'"
-      end
-    end
-
     def self.environment=(input)
       @environment = input
     end
