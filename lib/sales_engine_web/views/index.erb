@@ -1,5 +1,9 @@
 <html>
-<head><title>Sales Engine Web</title></head>
+<head>
+  <title>Sales Engine Web</title>
+  <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
+  <link href="style.css" type='text/css' rel="stylesheet" />
+</head>
 
 <body>
   <h1> Input your CSVs to my Sales Engine, <a href="http://www.youtube.com/watch?v=pQSceJJ1Clc" target="_blank">biotch</a> </h1>
@@ -30,19 +34,50 @@
     </form>
     <form action="/customers/find_all" method="get">
       <p>Last name: <input name="last_name" type="text" />
-      <input name="submit" type="submit" value="Search..." /></P>
+      <input type="submit" value="Search..." /></P>
     </form> 
   </P>
 </fieldset>
 
 <fieldset>
+  <legend>Merchants: Some Biz Intel, Y'all</legend>
+  <% @m = SalesEngineWeb::Merchant.random %>
+  <P>Random merchant: <%= @m.name %>
+  <ul>
+    <li><a href="/merchants/<%=@m.id%>/revenue">Revenue to date</a></li>
+    <li><a href="/merchants/<%=@m.id%>/favorite_customer">Favorite customer</a></li>
+    <li><a href="/merchants/<%=@m.id%>/customers_with_pending_invoices">Customers on your watch list</a></li>
+    <li><a href="/merchants/<%=@m.id%>/items">Item inventory</a></li>
+    <li><a href="/merchants/<%=@m.id%>/invoices">Invoice inventory</a></li>
+  </ul></p>
+
+  <!-- <form method="get" action="/merchants/:id/items">
+    <p>Return items: <input name="id" type="text" />
+      <input name="submit" type="submit" /></P>
+  </form>
+  <form method="get" action="/merchants/:id/customers_with_pending_invoices">
+    <p>Return pending invoices: <input name="id" type="text" />
+      <input name="submit" type="submit" /></P>
+  </form>
+  <form method="get" action="/merchants/:id/revenue">
+    <p>Return total revenue: <input name="id" type="text" />
+      <input name="submit" type="submit" /></P>
+  </form> -->
+
+
+  <form method="get" action="/merchants/random"><button>I'm Feeling Lucky!</button></form>
+</fieldset>
+
+<fieldset>
   <legend>Whatever you do... Don't push this button</legend>
-  <form action="/clear" method="/get">
+  <form action="/clear" method="get">
     <input name="delete" type="submit" value="Or do. Whatevs. It deletes your data." />
   </form>
   <P>(non-working for now)</P>
 </fieldset>
 
+<fieldset>
+  <legend>Duh-duh-data Table</legend>
   <P>Or check out this table for the full list (because, hell, I'm learning HTML, so why not make a table?):</P>
   <table>
     <thead>
@@ -62,6 +97,6 @@
       <% end %>
     </tbody>
   </table>
-
+</fieldset>
 </body>
 </html>

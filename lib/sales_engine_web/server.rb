@@ -7,6 +7,24 @@ module SalesEngineWeb
       erb :index
     end
 
+    # module SalesEngineWeb
+
+    #   def self.class_for_csv_type(csv_type)
+    #     if csv_type.downcase == "customer"
+    #       Customer
+    #     else
+    #       UnknownType
+    #     end
+    #   end
+
+    #   class UnknownType
+    #     def self.create(*params)
+    #       raise "I am not the appropriate type to handle requests"
+    #     end
+    #   end
+    # end
+
+
     post '/upload' do
       filename = "./db/csvs/#{params[:csv_file]}"
       csv_file = CSV.open(filename, headers: true, header_converters: :symbol)
@@ -82,6 +100,16 @@ module SalesEngineWeb
         invoices = Invoice.find_all_by_status(params[:status])
       end
       body invoices.to_json 
+    end
+
+    # [ [ "merchants", Merchants ], [ "invoices", Invoices] ].each do |model,model_class|
+    #   get "/#{model}/random" do
+    #     model_class.random.to_json
+    #   end
+    # end
+
+    get '/merchants/random' do
+      Merchant.random.to_json
     end
 
     get '/invoices/random' do
@@ -263,7 +291,7 @@ module SalesEngineWeb
     end
 
     not_found do
-      "You messed up"
+      erb :error
     end
 
   end

@@ -31,6 +31,11 @@ module SalesEngineWeb
       trans_array
     end
 
+    # def transactions
+    #   invoices.map { |inv| inv.transactions.map {|trans| trans_array << trans} }.flatten.compact
+    # => shorter, but not cleaner
+    # end
+
     def successful_transactions
       transactions.select {|trans| trans if trans.paid?}
     end
@@ -40,22 +45,26 @@ module SalesEngineWeb
       pending_invs.collect {|inv| inv.customer }
     end
 
-    def self.most_revenue(quantity)
-      merch_revenue = all.inject(Hash.new(0)) do |memo, merch|
+    def self.all_sorted_by_revenue
+      all.inject(Hash.new(0)) do |memo, merch|
         memo[merch] += merch.revenue if merch
         memo
       end
-
-      self.sort_and_output(merch_revenue, quantity)
     end
 
-    def self.most_items(quantity)
-      merch_items = all.inject(Hash.new(0)) do |memo, merch|
+    def self.all_sorted_by_items
+      all.inject(Hash.new(0)) do |memo, merch|
         memo[merch] += merch.total_items_sold if merch
         memo
       end
+    end
 
-      self.sort_and_output(merch_items, quantity)
+    def self.most_revenue(quantity)
+      sort_and_output all_sorted_by_revenue, quantity
+    end
+
+    def self.most_items(quantity)
+      sort_and_output all_sorted_by_items, quantity
     end
 
     def self.sort_and_output(hash, quantity)
@@ -119,9 +128,7 @@ module SalesEngineWeb
     end
 
     def self.all
-      merchants.order.collect do |row|
-        Merchant.new(row)
-      end
+      merchants.order.collect {|row| new(row) }
     end
   end
 end
