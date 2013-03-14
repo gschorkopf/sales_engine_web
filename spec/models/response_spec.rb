@@ -9,7 +9,7 @@ module SalesEngineWeb
     end
 
     it "has a default body" do
-      expect( Response.new.body ).to eq ""
+      expect( Response.new.body ).to eq "{}"
     end
   end
 end

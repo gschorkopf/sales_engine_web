@@ -13,12 +13,23 @@ module SalesEngineWeb
     end
 
     def transactions
-      # invoices.collect {|invoice| invoice.transactions }
       trans_array = []
       invoices.each do |inv| 
         inv.transactions.each {|trans| trans_array << trans}
       end
       trans_array
+    end
+
+    def successes
+      transactions.select {|trans| trans if trans.paid?}
+    end
+
+    def favorite_merchant
+      fav = Hash.new(0)
+      successes.each do |trans|
+        fav[trans.merchant] += 1 if trans.merchant
+      end
+      fav.sort_by {|k,v| v}.reverse.first.first
     end
 
     def self.random
@@ -76,6 +87,12 @@ module SalesEngineWeb
 
     def self.customers
       Database.customers
+    end
+
+    def self.all
+      customers.order.collect do |row|
+        Customer.new(row)
+      end
     end
   end
 end

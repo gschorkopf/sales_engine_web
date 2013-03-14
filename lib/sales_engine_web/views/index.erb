@@ -1,0 +1,55 @@
+<html>
+<head><title>Sales Engine Web</title></head>
+
+<body>
+  <h1> Input your CSVs, <a href="http://www.youtube.com/watch?v=pQSceJJ1Clc" target="_blank">biotch</a> </h1>
+
+  <form action="/upload" method="post">
+    <p>Please input your csv:<br />
+      <input name="csv_file" type="file" />
+    <p>CSV type:<br />
+      <input name="csv_type" type="radio" value="Customer" checked="checked" />Customer
+      <input name="csv_type" type="radio" value="Invoice" />Invoice
+      <input name="csv_type" type="radio" value="InvoiceItem" />Invoice Item
+      <input name="csv_type" type="radio" value="Item" />Item
+      <input name="csv_type" type="radio" value="Transaction" />Transaction
+      <input name="csv_type" type="radio" value="Merchant" />Merchant<br />
+      Yeah, you have to do one at a time. I know it takes a few seconds longer.<br />
+      Oh yeah? Well, your grandpa fought the Nazis. Surely you can click a few links.
+    </P>
+      <input name="submit" type="submit" value="Upload" />
+  </form>
+
+  <P>While you're at it, hot shot, search for customers below (case insensitive, partial spellings included).
+    <form action="/customers/find_all" method="get">
+      <p>First name: <input name="first_name" type="text" />
+      <input name="submit" type="submit" value="Search..." /></P>
+    </form>
+    <form action="/customers/find_all" method="get">
+      <p>Last name: <input name="last_name" type="text" />
+      <input name="submit" type="submit" value="Search..." /></P>
+    </form> 
+  </P>
+
+  <P>Or check out this table for the full list:</P>
+  <table>
+    <thead>
+      <tr>
+        <th scope="col">ID</th>
+        <th scope="col">First Name</th>
+        <th score="col">Last Name</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @customers.each do |customer| %>
+      <tr>
+        <td><%= customer.id %></td>
+        <td><%= customer.first_name %></td>
+        <td><%= customer.last_name %></td>
+      </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+</body>
+</html>

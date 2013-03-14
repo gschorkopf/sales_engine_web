@@ -89,7 +89,10 @@ describe "/customers/" do
   end
 
   describe ":id/favorite_merchant" do
-    it "returns a merchant where the customer has conducted the most successful transactions"
+    it "returns a merchant where the customer has conducted the most successful transactions" do
+      output = get_json "/customers/#{customer1.id}/favorite_merchant"
+      expect(output['name']).to eq 'gSchool'
+    end
   end
 
 end

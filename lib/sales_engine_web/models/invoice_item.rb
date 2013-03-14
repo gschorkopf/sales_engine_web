@@ -14,6 +14,10 @@ module SalesEngineWeb
       Invoice.find(invoice_id)
     end
 
+    def revenue
+      unit_price * quantity
+    end
+
     def item
       Item.find(item_id)
     end

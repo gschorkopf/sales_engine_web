@@ -17,6 +17,22 @@ module SalesEngineWeb
       InvoiceItem.find_all_by_invoice_id(id)
     end
 
+    def success?
+      transactions.any? {|trans| trans.paid?}
+    end
+
+    def pending?
+      !success?
+    end
+
+    def revenue
+      if success?
+        invoice_items.inject(0) {|sum, ii| sum + ii.revenue}
+      else
+        return 0
+      end
+    end
+
     def items
       invoice_items.collect {|ii| Item.find(ii.id)}
     end

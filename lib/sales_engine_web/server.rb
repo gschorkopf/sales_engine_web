@@ -1,16 +1,28 @@
 module SalesEngineWeb
   class Server < Sinatra::Base
+    set :views, 'lib/sales_engine_web/views'
+
     get '/' do
-      # "Hello world"
+      @customers = Customer.all
+      erb :index
     end
 
-    get '/merchants/find' do
-      respond_with MerchantsController.find(params)
+    post '/upload' do
+      filename = "./db/csvs/#{params[:csv_file]}"
+      csv_file = CSV.open(filename, headers: true, header_converters: :symbol)
+      csv_file.collect do |file_row|
+        SalesEngineWeb.const_get( params[:csv_type] ).create(file_row)
+      end
+      redirect to('/')
     end
 
     def respond_with(response)
       status response.status
       body response.body
+    end
+
+    get '/merchants/find' do
+      respond_with MerchantsController.find(params)
     end
 
     get '/merchants/find_all' do
@@ -29,8 +41,29 @@ module SalesEngineWeb
       Merchant.find(params[:id]).invoices.to_json if Merchant.find(params[:id])
     end
 
+    get '/merchants/:id/revenue' do
+      rev = Merchant.find(params[:id]).revenue if Merchant.find(params[:id])
+      body rev.to_s
+    end
+
+    get '/merchants/:id/favorite_customer' do
+      Merchant.find(params[:id]).favorite_customer.to_json if Merchant.find(params[:id])
+    end
+
+    get '/merchants/:id/customers_with_pending_invoices' do
+      Merchant.find(params[:id]).customers_with_pending_invoices.to_json
+    end
+
     get '/invoices/find' do
-      respond_with InvoicesController.find(params)
+      if params[:id]
+        invoice = Invoice.find(params[:id])
+      elsif params[:customer_id]
+        invoice = Invoice.find(params[:customer_id])
+      elsif params[:merchant_id]
+        invoice = Invoice.find(params[:merchant_id])
+      end
+      body invoice.to_json
+      # respond_with InvoicesController.find(params)
     end
 
     get '/invoices/find_all' do
@@ -73,7 +106,7 @@ module SalesEngineWeb
         customer = Customer.find(params[:id])
       elsif params[:first_name]
         customer = Customer.find_by_first_name(params[:first_name])
-      else
+      elsif params[:last_name]
         customer = Customer.find_by_last_name(params[:last_name])
       end
       body customer.to_json
@@ -82,7 +115,7 @@ module SalesEngineWeb
     get '/customers/find_all' do
       if params[:first_name]
         customers = Customer.find_all_by_first_name(params[:first_name])
-      else
+      elsif params[:last_name]
         customers = Customer.find_all_by_last_name(params[:last_name])
       end
       body customers.to_json
@@ -98,6 +131,10 @@ module SalesEngineWeb
 
     get '/customers/:id/transactions' do
       Customer.find(params[:id]).transactions.to_json if Customer.find(params[:id])
+    end
+
+    get '/customers/:id/favorite_merchant' do
+      Customer.find(params[:id]).favorite_merchant.to_json
     end
 
     get '/items/find' do
@@ -210,6 +247,9 @@ module SalesEngineWeb
       Transaction.find(params[:id]).invoice.to_json if Transaction.find(params[:id])
     end
 
+    not_found do
+      "You messed up"
+    end
 
   end
 end

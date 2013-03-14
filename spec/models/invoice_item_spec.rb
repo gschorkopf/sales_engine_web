@@ -97,5 +97,12 @@ module SalesEngineWeb
         expect(ii1.item.name).to eq 'Top'
       end
     end
+
+    describe "revenue" do
+      it "returns revenue for specific item" do
+        expect(ii1.revenue).to eq 900
+        expect(ii2.revenue).to eq 800
+      end
+    end
   end
 end

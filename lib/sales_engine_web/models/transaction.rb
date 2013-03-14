@@ -14,6 +14,22 @@ module SalesEngineWeb
       Invoice.find(invoice_id)
     end
 
+    def self.successes
+      find_all_by_result("success")
+    end
+
+    def customer
+      Customer.find(invoice.customer_id)
+    end
+
+    def merchant
+      Merchant.find(invoice.merchant_id)
+    end
+
+    def paid?
+      self.result == 'success'
+    end
+
     def self.create(params)
       Transaction.new(params).save
     end

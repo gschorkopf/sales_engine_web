@@ -70,5 +70,13 @@ module SalesEngineWeb
         expect(customer1.transactions.count).to eq 3
       end
     end
+
+    describe ".all" do
+      it "returns all customers" do
+        customers = Customer.all
+        expect(customers.count).to eq 2
+        expect(customers[0].first_name).to eq "Geoff"
+      end
+    end
   end
 end

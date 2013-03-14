@@ -81,5 +81,11 @@ module SalesEngineWeb
       end
     end
 
+    describe "#revenue" do
+      it "returns total revenue for that merchant across all invoices" do
+        expect(merchant1.revenue).to eq 0
+        expect(merchant2.revenue).to eq 1700
+      end
+    end
   end
 end

@@ -114,5 +114,12 @@ module SalesEngineWeb
         expect(invoice1.merchant.name).to eq 'gSchool'
       end
     end
+
+    describe "#revenue" do
+      it "returns revenue for invoice" do
+        expect(invoice1.revenue).to eq 1700
+        expect(invoice2.revenue).to eq 1000
+      end
+    end
   end
 end
