@@ -5,17 +5,16 @@ module SalesEngineWeb
     end
 
     get '/merchants/find' do
-      if params[:id]
-        merchant = Merchant.find(params[:id])
-      else
-        merchant = Merchant.find_by_name(params[:name])
-      end
-      body merchant.to_json
+      respond_with MerchantsController.find(params)
+    end
+
+    def respond_with(response)
+      status response.status
+      body response.body
     end
 
     get '/merchants/find_all' do
-      merchants = Merchant.find_all_by_name(params[:name])
-      body merchants.to_json
+      respond_with MerchantsController.find_all(params)
     end
 
     get '/merchants/random' do
@@ -31,14 +30,7 @@ module SalesEngineWeb
     end
 
     get '/invoices/find' do
-      if params[:id]
-        invoice = Invoice.find(params[:id])
-      elsif params[:customer_id]
-        invoice = Invoice.find(params[:customer_id])
-      elsif params[:merchant_id]
-        invoice = Invoice.find(params[:merchant_id])
-      end
-      body invoice.to_json
+      respond_with InvoicesController.find(params)
     end
 
     get '/invoices/find_all' do
