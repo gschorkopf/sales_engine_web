@@ -2,8 +2,9 @@
 <head><title>Sales Engine Web</title></head>
 
 <body>
-  <h1> Input your CSVs, <a href="http://www.youtube.com/watch?v=pQSceJJ1Clc" target="_blank">biotch</a> </h1>
-
+  <h1> Input your CSVs to my Sales Engine, <a href="http://www.youtube.com/watch?v=pQSceJJ1Clc" target="_blank">biotch</a> </h1>
+<fieldset>
+  <legend>Engine Importer</legend>
   <form action="/upload" method="post">
     <p>Please input your csv:<br />
       <input name="csv_file" type="file" />
@@ -14,13 +15,16 @@
       <input name="csv_type" type="radio" value="Item" />Item
       <input name="csv_type" type="radio" value="Transaction" />Transaction
       <input name="csv_type" type="radio" value="Merchant" />Merchant<br />
-      Yeah, you have to do one at a time. I know it takes a few seconds longer.<br />
-      Oh yeah? Well, your grandpa fought the Nazis. Surely you can click a few links.
     </P>
       <input name="submit" type="submit" value="Upload" />
   </form>
+  Yeah, you have to do one at a time. I know it takes a few seconds longer.<br />
+  Oh yeah? Well, your grandpa fought the Nazis. Surely you can click a few links.
+</fieldset>
 
-  <P>While you're at it, hot shot, search for customers below (case insensitive, partial spellings included).
+<fieldset>
+  <legend>Engine Search</legend>
+  <P>While you're at it, hot shot, search for customers below (case insensitive, partial spellings included. For example 'jo' will bring up both 'joey' and 'marjolaine'. I know. Hilarious name).
     <form action="/customers/find_all" method="get">
       <p>First name: <input name="first_name" type="text" />
       <input name="submit" type="submit" value="Search..." /></P>
@@ -30,8 +34,9 @@
       <input name="submit" type="submit" value="Search..." /></P>
     </form> 
   </P>
+</fieldset>
 
-  <P>Or check out this table for the full list:</P>
+  <P>Or check out this table for the full list (because, hell, I'm learning HTML, so why not make a table?):</P>
   <table>
     <thead>
       <tr>
