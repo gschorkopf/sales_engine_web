@@ -85,15 +85,24 @@ describe "/items/" do
   end
 
   describe "most_revenue?quantity=x" do
-    it "returns the top x items ranked by total revenue generated"
+    it "returns the top x items ranked by total revenue generated" do
+      output = get_json "/items/most_revenue?quantity=2"
+      expect(output.first['name']).to eq 'Top'
+      expect(output.count).to eq 2
+    end
   end
 
   describe "most_items?quantity=x" do
-    it "returns the top x item instances ranked by total number sold"
-  end
+    it "returns the top x item instances ranked by total number sold" do
+      output = get_json "/items/most_items?quantity=2"
+      expect(output.first['name']).to eq 'Top'
+      expect(output.count).to eq 2
+    end
 
-  describe ":id/best_day" do
-    it "returns the date with the most sales for the given item using the invoice date"
+    it "returns the top x item instances ranked by total number sold again" do
+      output = get_json "/items/most_items?quantity=3"
+      expect(output.last['name']).to eq 'Cell phone'
+      expect(output.count).to eq 3
+    end
   end
-
 end

@@ -1,7 +1,7 @@
 module SalesEngineWeb
   class MerchantsController
     def self.find(args)
-      args[:id] ? merchant = Merchant.find(args[:id]) : merchant = Merchant.find(args[:name])
+      args[:id] ? merchant = Merchant.find(args[:id]) : merchant = Merchant.find_by_name(args[:name])
       Response.new({:body => merchant.to_json, :status => 200})
     end
 

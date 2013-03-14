@@ -11,6 +11,10 @@ module SalesEngineWeb
       Item.find_all_by_merchant_id(id)
     end
 
+    def total_items_sold
+      items.inject(0) {|sum, item| sum + item.total_quantity }
+    end
+
     def invoices
       Invoice.find_all_by_merchant_id(id)
     end
@@ -36,11 +40,36 @@ module SalesEngineWeb
       pending_invs.collect {|inv| inv.customer }
     end
 
-    def favorite_customer
-      custs = Hash.new(0)
-      successful_transactions.each do |trans|
-        custs[trans.customer] += 1
+    def self.most_revenue(quantity)
+      merch_revenue = all.inject(Hash.new(0)) do |memo, merch|
+        memo[merch] += merch.revenue if merch
+        memo
       end
+
+      self.sort_and_output(merch_revenue, quantity)
+    end
+
+    def self.most_items(quantity)
+      merch_items = all.inject(Hash.new(0)) do |memo, merch|
+        memo[merch] += merch.total_items_sold if merch
+        memo
+      end
+
+      self.sort_and_output(merch_items, quantity)
+    end
+
+    def self.sort_and_output(hash, quantity)
+      sorted = []
+      hash.sort_by {|k,v| v}.reverse.collect {|k,v| sorted << k}
+      sorted[0,quantity.to_i]
+    end
+
+    def favorite_customer
+      custs = successful_transactions.inject(Hash.new(0)) do |memo, trans|
+        memo[trans.customer] += 1
+        memo
+      end
+
       custs.sort_by {|k,v| v}.reverse.first.first
     end
 
@@ -87,6 +116,12 @@ module SalesEngineWeb
 
     def self.merchants
       Database.merchants
+    end
+
+    def self.all
+      merchants.order.collect do |row|
+        Merchant.new(row)
+      end
     end
   end
 end

@@ -54,6 +54,14 @@ module SalesEngineWeb
       Merchant.find(params[:id]).customers_with_pending_invoices.to_json
     end
 
+    get '/merchants/most_revenue' do
+      Merchant.most_revenue(params[:quantity]).to_json
+    end
+
+    get '/merchants/most_items' do
+      Merchant.most_items(params[:quantity]).to_json
+    end
+
     get '/invoices/find' do
       if params[:id]
         invoice = Invoice.find(params[:id])
@@ -63,7 +71,6 @@ module SalesEngineWeb
         invoice = Invoice.find(params[:merchant_id])
       end
       body invoice.to_json
-      # respond_with InvoicesController.find(params)
     end
 
     get '/invoices/find_all' do
@@ -175,6 +182,14 @@ module SalesEngineWeb
 
     get '/items/:id/merchant' do
       Item.find(params[:id]).merchant.to_json if Item.find(params[:id])
+    end
+
+    get '/items/most_items' do
+      Item.most_items(params[:quantity]).to_json
+    end
+
+    get '/items/most_revenue' do
+      Item.most_revenue(params[:quantity]).to_json
     end
 
     get '/invoice_items/find' do

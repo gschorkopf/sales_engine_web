@@ -37,10 +37,9 @@ describe "/merchants/" do
 
     context "given name='gSchool'" do
       it "finds the merchant" do
-        # get "/merchants/find?name=gSchool"
-        # output = JSON.parse(last_response.body)
-        # expect( output['id'] ).to eq merchant2.id
-        # expect( output['name'] ).to eq merchant2.name
+        output = get_json "/merchants/find?name=gSchool"
+        expect( output['id'] ).to eq merchant2.id
+        expect( output['name'] ).to eq merchant2.name
       end
     end
   end
@@ -74,15 +73,27 @@ describe "/merchants/" do
 
   context "for multiple merchants" do
     describe "most_revenue?quantity=x" do
-      it "returns the top x merchants ranked by total revenue"
+      it "returns the top x merchants ranked by total revenue" do
+        output = get_json "/merchants/most_revenue?quantity=2"
+        expect(output.first['name']).to eq "gSchool" 
+        expect(output.last['name']).to eq 'Jumpstart Lab'
+        expect(output.count).to eq 2
+      end
+
+      it "returns the top x merchants ranked by total revenue" do
+        output = get_json "/merchants/most_revenue?quantity=1"
+        expect(output.first['name']).to eq "gSchool" 
+        expect(output.count).to eq 1
+      end
     end
 
     describe "most_items?quantity=x" do
-      it "returns the top x merchants ranked by total number of items sold"
-    end
-
-    describe "revenue?date=x" do
-      it "returns the total revenue for date x across all merchants"
+      it "returns the top x merchants ranked by total number of items sold" do
+        output = get_json "/merchants/most_items?quantity=2"
+        expect(output.first['name']).to eq "Jumpstart Lab" 
+        expect(output.last['name']).to eq 'gSchool'
+        expect(output.count).to eq 2
+      end
     end
   end
 
@@ -92,10 +103,6 @@ describe "/merchants/" do
         get "/merchants/#{merchant2.id}/revenue"
         expect(last_response.body).to eq '1700'
       end
-    end
-
-    describe ":id/revenue?date=x" do
-      it "returns the total revenue for that merchant for a specific invoice date"
     end
 
     describe ":id/favorite_customer" do

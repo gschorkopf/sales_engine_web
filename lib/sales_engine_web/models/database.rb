@@ -8,8 +8,6 @@ module SalesEngineWeb
     def self.destroy
       if environment == :test
         system "rm './db/sales_engine_web_test.sqlite3'"
-      else
-        raise "Go do it yourself!"
       end
     end
 

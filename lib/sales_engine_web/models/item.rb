@@ -14,6 +14,38 @@ module SalesEngineWeb
       InvoiceItem.find_all_by_item_id(id)
     end
 
+    def total_quantity
+      invoice_items.inject(0) {|sum, ii| sum + ii.quantity}
+    end
+
+    def total_sales
+      invoice_items.inject(0) {|sum, ii| sum + ii.revenue}
+    end
+    
+    def self.most_items(quantity)
+      all_quantity = all.inject(Hash.new(0)) do |memo, item|
+        memo[item] = item.total_quantity
+        memo
+      end
+
+      self.sort_and_order(all_quantity, quantity)
+    end
+
+    def self.most_revenue(quantity)
+      all_sales = all.inject(Hash.new(0)) do |memo, item|
+        memo[item] = item.total_sales
+        memo
+      end
+
+      self.sort_and_order(all_sales, quantity)
+    end
+
+    def self.sort_and_order(hash, quantity)
+      sorted = []
+      hash.sort_by {|k,v| v}.reverse.collect {|k,v| sorted << k}
+      sorted[0,quantity.to_i]
+    end
+
     def merchant
       Merchant.find(merchant_id)
     end
@@ -97,6 +129,12 @@ module SalesEngineWeb
 
     def self.items
       Database.items
+    end
+
+    def self.all
+      items.order.collect do |item|
+        Item.new(item)
+      end
     end
   end
 end
